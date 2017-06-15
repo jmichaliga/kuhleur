@@ -1,0 +1,14 @@
+{
+  "name": "parsechapi",
+  "version": "1.0.0",
+  "description": "ParSec Hapi Server Test",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.sh"
+  },
+  "author": "Justin Michaliga",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^16.4.3"
+  }
+}
