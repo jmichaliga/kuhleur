@@ -9,6 +9,8 @@
   "author": "Justin Michaliga",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^16.4.3"
+    "hapi": "^16.4.3",
+    "lodash": "^4.17.4",
+    "lowdb": "^0.16.2"
   }
 }
