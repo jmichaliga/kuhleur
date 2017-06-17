@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const Good = require('good');
+const Boom = require('boom');
 const _ = require('lodash');
 const low = require('lowdb');
 
@@ -41,11 +42,7 @@ server.route({
         .last()
         .write()
     }else{
-      data = {
-        statusCode: 400,
-        error: "Bad request",
-        message:"Application already submitted for this college/name pair"
-      }
+      data = Boom.badRequest("Application already submitted for this college/name pair");
     }
 
     res(data);
