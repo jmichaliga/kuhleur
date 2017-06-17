@@ -9,6 +9,9 @@
   "author": "Justin Michaliga",
   "license": "ISC",
   "dependencies": {
+    "good": "^7.2.0",
+    "good-console": "^6.4.0",
+    "good-squeeze": "^5.0.2",
     "hapi": "^16.4.3",
     "lodash": "^4.17.4",
     "lowdb": "^0.16.2"
