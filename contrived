@@ -1,0 +1,15 @@
+#!/bin/bash
+if command -v node >/dev/null 2>&1 ; then
+    echo "node found - version: $(node -v)"
+
+    if [ ! -d ./node_modules ]
+    then
+      echo "deps not found: installing..."
+      npm install
+    fi
+
+    BKUP=$1 PORT=$2 node index.js
+else
+    echo "nodejs not found"
+fi
+

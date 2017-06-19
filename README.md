@@ -1,3 +1,3 @@
 # parsecapi
 ---
-clone and run `npm install` on node v6+
+clone this repo and run `contrived {backup.json} and {port#}` on an environment with node v6+ 

@@ -9,6 +9,8 @@ const low = require('lowdb');
 const db = low('db.json');
 
 const server = new Hapi.Server();
+
+let backupFile = process.env.BKUP ? process.env.BKUP : 'backup.json'
 server.connection({
   port: process.env.PORT ? process.env.PORT : 3000,
   host: 'localhost'
@@ -117,7 +119,7 @@ server.route({
   method: 'POST',
   path: '/backup',
   handler: function(req, res){
-    db.write('backup.json');
+    db.write(backupFile);
     res({statusCode: 200, message:'Backup successful'});
   }
 });
