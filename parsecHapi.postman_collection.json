@@ -1,0 +1,93 @@
+{
+	"variables": [],
+	"info": {
+		"name": "parsecHapi",
+		"_postman_id": "2b0440e5-e798-67a1-50c2-0c397c5ef6c2",
+		"description": "Test Endpoints for the parsecHapi server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/applications",
+			"request": {
+				"url": "localhost:3000/applications",
+				"method": "POST",
+				"header": [
+					{
+						"key": "college",
+						"value": "CompSci",
+						"description": ""
+					},
+					{
+						"key": "name",
+						"value": "Justin",
+						"description": ""
+					},
+					{
+						"key": "score",
+						"value": "100",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/applicants",
+			"request": {
+				"url": "localhost:3000/applicants",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/applicants/{name}",
+			"request": {
+				"url": "localhost:3000/applicants/Alice",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/colleges",
+			"request": {
+				"url": "localhost:3000/colleges",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/colleges/{name}",
+			"request": {
+				"url": "localhost:3000/colleges/Business",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/backup",
+			"request": {
+				"url": "localhost:3000/backup",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
