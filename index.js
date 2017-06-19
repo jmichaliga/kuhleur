@@ -58,6 +58,11 @@ server.route({
 
     let applicants = _.clone(db.get('applications')
       .groupBy('name')
+      .transform(function(result, apps, x) {
+        result[ x ] = _.map(apps, function(app) {
+          return _.omit(app, 'name')
+        });
+      })
       .value());
 
     res(applicants);
@@ -72,6 +77,9 @@ server.route({
     let name = encodeURIComponent(req.params.name);
     let applications = _.clone(db.get('applications')
       .filter({'name': name})
+      .transform(function(result, value, key) {
+        result[key] = {college: value.college, score: value.score}
+      }, [])
       .value());
 
     let data = {
@@ -90,6 +98,11 @@ server.route({
 
     let colleges = _.clone(db.get('applications')
       .groupBy('college')
+      .transform(function(result, apps, i) {
+        result[i] = _.map(apps, function(app) {
+          return _.omit(app, 'college')
+        });
+      })
       .value());
 
     res(colleges);
@@ -104,6 +117,9 @@ server.route({
     let name = encodeURIComponent(req.params.name);
     let applications = _.clone(db.get('applications')
       .filter({'college': name})
+      .transform(function(result, value, key) {
+        result[key] = {name: value.name, score: value.score}
+      }, [])
       .value());
 
     let data = {
