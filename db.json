@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "hex": "FF0000",
+      "name": "Red",
+      "timestamp": 1498536867212,
+      "user": "Anon"
+    },
+    {
+      "hex": "00FF00",
+      "name": "Green",
+      "timestamp": 1498536867212,
+      "user": "Anon"
+    },
+    {
+      "hex": "0000FF",
+      "name": "Blue",
+      "timestamp": 1498536867212,
+      "user": "Anon"
+    }
+  ]
+}
