@@ -1,19 +1,23 @@
 'use strict';
 
+const next = require('next');
 const Hapi = require('hapi');
 const Good = require('good');
 const Boom = require('boom');
 const uuid = require('uuid');
 const _ = require('lodash');
 const low = require('lowdb');
+const { pathWrapper, defaultHandlerWrapper } = require('./next-wrapper');
+const db = low('/tmp/db.json');
 
-const db = low('db.json');
-
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({dev});
 const server = new Hapi.Server();
 
-let backupFile = process.env.BKUP ? process.env.BKUP : 'backup.json'
+let backupFile = process.env.BKUP ? '/tmp/'+process.env.BKUP : '/tmp/backup.json'
+
 server.connection({
-  port: process.env.PORT ? process.env.PORT : 3000,
+  port: process.env.PORT ? process.env.PORT : 3001,
   host: 'localhost'
 });
 
@@ -31,7 +35,7 @@ server.connection({
 
 server.route({
   method: 'POST',
-  path: '/entries',
+  path: '/api/entries',
   handler: function(req, res){
     let h = req.headers;
     let x = h.hex;
@@ -67,7 +71,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/hexes',
+  path: '/api/hexes',
   handler: function(req, res){
 
     let hexes = _.clone(db.get('entries')
@@ -85,7 +89,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/hexes/{hex}',
+  path: '/api/hexes/{hex}',
   handler: function(req, res){
 
     let hex = encodeURIComponent(req.params.hex);
@@ -107,7 +111,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/names',
+  path: '/api/names',
   handler: function(req, res){
 
     let names = _.clone(db.get('entries')
@@ -125,7 +129,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/names/{name}',
+  path: '/api/names/{name}',
   handler: function(req, res){
 
     let name = encodeURIComponent(req.params.name);
@@ -147,7 +151,7 @@ server.route({
 
 server.route({
   method: 'POST',
-  path: '/backup',
+  path: '/api/backup',
   handler: function(req, res){
     db.write(backupFile);
     res({statusCode: 200, message:'Backup successful'});
@@ -157,53 +161,74 @@ server.route({
 db.defaults({
   entries: [
     {
-        "hex": "FF0000",
-        "name": "Red",
-        "timestamp": +new Date(),
-        "user": "Anon"
+      "hex": "FF0000",
+      "name": "Red",
+      "timestamp": +new Date(),
+      "user": "Anon"
     },
     {
-        "hex": "00FF00",
-        "name": "Green",
-        "timestamp": +new Date(),
-        "user": "Anon"
+      "hex": "00FF00",
+      "name": "Green",
+      "timestamp": +new Date(),
+      "user": "Anon"
     },
     {
-        "hex": "0000FF",
-        "name": "Blue",
-        "timestamp": +new Date(),
-        "user": "Anon"
+      "hex": "0000FF",
+      "name": "Blue",
+      "timestamp": +new Date(),
+      "user": "Anon"
     }
   ]
 }).write();
 
 server.register({
-  register: Good,
-  options: {
-    reporters: {
-      console: [{
-        module: 'good-squeeze',
-        name: 'Squeeze',
-        args: [{
-          response: '*',
-          log: '*'
-        }]
-      }, {
-        module: 'good-console'
-      }, 'stdout']
+    register: Good,
+    options: {
+      reporters: {
+        console: [{
+          module: 'good-squeeze',
+          name: 'Squeeze',
+          args: [{
+            response: '*',
+            log: '*'
+          }]
+        }, {
+          module: 'good-console'
+        }, 'stdout']
+      }
     }
-  }
-}, (err) => {
+  }, (err) => {
 
   if (err) {
     throw err; // something bad happened loading the plugin
   }
 
-  server.start((err) => {
+  server.route({
+    method: 'GET',
+    path: '/a',
+    handler: pathWrapper(app, '/a')
+  });
 
+  server.route({
+    method: 'GET',
+    path: '/b',
+    handler: pathWrapper(app, '/b')
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/{p*}', /* catch all route */
+    handler: defaultHandlerWrapper(app)
+  });
+
+  server.start((err) => {
     if (err) {
         throw err;
     }
     server.log('info', 'Server running at: ' + server.info.uri);
   });
+
 });
+
+
+

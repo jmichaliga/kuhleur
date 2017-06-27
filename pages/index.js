@@ -1,18 +1,12 @@
-export default () => (
-  <html>
-  <head>
-    <meta charset='utf-8'/>
-    <title>kuhleur</title>
-  </head>
-  <body>
-    <p>Welcome to kuhleur.js!</p>
-  </body>
-  </html>
-)
+import React from 'react'
+import Link from 'next/link'
 
-const Index = () => (
-   <Head>
-        <meta charset='utf-8'/>
-       <title>This is Document Title</title>
-   </Head>
+export default () => (
+  <div>
+    <h1>kuhleur</h1>
+    <ul>
+      <li><Link href='/b' as='/a'><a>a</a></Link></li>
+      <li><Link href='/a' as='/b'><a>b</a></Link></li>
+    </ul>
+  </div>
 )
