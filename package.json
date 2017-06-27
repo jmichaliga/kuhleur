@@ -4,6 +4,9 @@
   "description": "Kuhleur Hapi Server",
   "main": "server.js",
   "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
     "test": "test.sh"
   },
   "author": "Justin Michaliga",
@@ -16,6 +19,9 @@
     "hapi": "^16.4.3",
     "lodash": "^4.17.4",
     "lowdb": "^0.16.2",
+    "next": "^2.4.5",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "uuid": "^3.1.0"
   }
 }

@@ -1,22 +1,32 @@
 {
   "entries": [
     {
+      "uuid": "1a",
       "hex": "FF0000",
       "name": "Red",
       "timestamp": 1498536867212,
       "user": "Anon"
     },
     {
+      "uuid": "1b",
       "hex": "00FF00",
       "name": "Green",
       "timestamp": 1498536867212,
       "user": "Anon"
     },
     {
+      "uuid": "1c",
       "hex": "0000FF",
       "name": "Blue",
       "timestamp": 1498536867212,
       "user": "Anon"
+    },
+    {
+      "uuid": "b01b7e15-c352-4321-a2f6-896cc1e8076d",
+      "hex": "F90000",
+      "name": "Blood Red",
+      "timestamp": "1498537037709",
+      "user": "1"
     }
   ]
 }

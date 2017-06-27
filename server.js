@@ -37,6 +37,7 @@ server.route({
     let x = h.hex;
     let n = h.name;
     let t = h.timestamp;
+    let u = uuid.v4();
 
     let dupe = db.get('entries')
       .find({ hex: x, name: n })
@@ -45,7 +46,7 @@ server.route({
 
     //let pass = (c && n && s && dupe == 0) ? true : false; //valid format w/out duplicate;
     let data = {};
-    let payload = {hex: x, name: n, timestamp: t, user: '1'};
+    let payload = {uuid: u, hex: x, name: n, timestamp: t, user: '1'};
 
     //if(pass){
       data = {
@@ -91,7 +92,7 @@ server.route({
     let entries = _.clone(db.get('entries')
       .filter({'hex': hex})
       .transform(function(result, value, key) {
-        result[key] = {name: value.name, timestamp: value.timestamp, user: value.user}
+        result[key] = {uuid: value.uuid, name: value.name, timestamp: value.timestamp, user: value.user}
       }, [])
       .value());
 
@@ -131,7 +132,7 @@ server.route({
     let entries = _.clone(db.get('entries')
       .filter({'name': name})
       .transform(function(result, value, key) {
-        result[key] = {hex: value.hex, timestamp: value.timestamp, user: value.user}
+        result[key] = {uuid: value.uuid, hex: value.hex, timestamp: value.timestamp, user: value.user}
       }, [])
       .value());
 
@@ -143,46 +144,6 @@ server.route({
     res(data);
   }
 });
-
-// server.route({
-//   method: 'GET',
-//   path: '/colleges',
-//   handler: function(req, res){
-
-//     let colleges = _.clone(db.get('applications')
-//       .groupBy('college')
-//       .transform(function(result, apps, i) {
-//         result[i] = _.map(apps, function(app) {
-//           return _.omit(app, 'college')
-//         });
-//       })
-//       .value());
-
-//     res(colleges);
-//   }
-// });
-
-// server.route({
-//   method: 'GET',
-//   path: '/colleges/{name}',
-//   handler: function(req, res){
-
-//     let name = encodeURIComponent(req.params.name);
-//     let applications = _.clone(db.get('applications')
-//       .filter({'college': name})
-//       .transform(function(result, value, key) {
-//         result[key] = {name: value.name, score: value.score}
-//       }, [])
-//       .value());
-
-//     let data = {
-//       college: name,
-//       applications: applications
-//     };
-
-//     res(data);
-//   }
-// });
 
 server.route({
   method: 'POST',
