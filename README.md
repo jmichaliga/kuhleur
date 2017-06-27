@@ -1,3 +1,3 @@
-# parsecapi
+# kuhleur
 ---
-clone this repo and run `./contrived {backup.json} and {port#}` on an environment with node v6+ 
+clone this repo and run `./letsgo {backup.json} and {port#}` on an environment with node v6+ 

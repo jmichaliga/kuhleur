@@ -1,9 +1,9 @@
 {
 	"variables": [],
 	"info": {
-		"name": "parsecHapi",
+		"name": "kuhleurHapi",
 		"_postman_id": "2b0440e5-e798-67a1-50c2-0c397c5ef6c2",
-		"description": "Test Endpoints for the parsecHapi server",
+		"description": "Test Endpoints for the kuhleurHapi server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [

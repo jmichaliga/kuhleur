@@ -16,36 +16,49 @@ server.connection({
   host: 'localhost'
 });
 
+/* Entry Model:
+
+    {
+        uid: string,
+        hex: string,
+        name: string,
+        timestamp: datetime,
+        user: string
+    }
+
+*/
+
 server.route({
   method: 'POST',
-  path: '/applications',
+  path: '/entries',
   handler: function(req, res){
     let h = req.headers;
-    let c = h.college;
+    let x = h.hex;
     let n = h.name;
+    let t = h.timestamp,
     let s = h.score;
 
-    let dupe = db.get('applications')
-      .find({ college: c, name: n })
+    let dupe = db.get('entries')
+      .find({ hex: x, name: n })
       .size()
       .value()
 
-    let pass = (c && n && s && dupe == 0) ? true : false; //valid format w/out duplicate;
+    //let pass = (c && n && s && dupe == 0) ? true : false; //valid format w/out duplicate;
     let data = {};
-    let payload = {college: c, name: n, score: s};
+    let payload = {hex: x, name: n, timestamp: t, user: '1'};
 
-    if(pass){
+    //if(pass){
       data = {
         statusCode: 200,
-        message: "Application submitted successfully"
+        message: "Entry submitted successfully"
       }
-      db.get('applications')
+      db.get('entries')
         .push(payload)
         .last()
         .write()
-    }else{
-      data = Boom.badRequest("Application already submitted for this college/name pair");
-    }
+    // }else{
+    //   data = Boom.badRequest("Entry already submitted for this college/name pair");
+    // }
 
     res(data);
   }
@@ -53,30 +66,30 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/applicants',
+  path: '/hexes',
   handler: function(req, res){
 
-    let applicants = _.clone(db.get('applications')
-      .groupBy('name')
-      .transform(function(result, apps, x) {
-        result[ x ] = _.map(apps, function(app) {
-          return _.omit(app, 'name')
+    let hexes = _.clone(db.get('entries')
+      .groupBy('hex')
+      .transform(function(result, hexes, x) {
+        result[ x ] = _.map(hexes, function(h) {
+          return _.omit(h, 'hex')
         });
       })
       .value());
 
-    res(applicants);
+    res(hexes);
   }
 });
 
 server.route({
   method: 'GET',
-  path: '/applicants/{name}',
+  path: '/hexes/{hex}',
   handler: function(req, res){
 
-    let name = encodeURIComponent(req.params.name);
-    let applications = _.clone(db.get('applications')
-      .filter({'name': name})
+    let hex = encodeURIComponent(req.params.hex);
+    let applications = _.clone(db.get('entries')
+      .filter({'hex': name})
       .transform(function(result, value, key) {
         result[key] = {college: value.college, score: value.score}
       }, [])
@@ -91,45 +104,45 @@ server.route({
   }
 });
 
-server.route({
-  method: 'GET',
-  path: '/colleges',
-  handler: function(req, res){
+// server.route({
+//   method: 'GET',
+//   path: '/colleges',
+//   handler: function(req, res){
 
-    let colleges = _.clone(db.get('applications')
-      .groupBy('college')
-      .transform(function(result, apps, i) {
-        result[i] = _.map(apps, function(app) {
-          return _.omit(app, 'college')
-        });
-      })
-      .value());
+//     let colleges = _.clone(db.get('applications')
+//       .groupBy('college')
+//       .transform(function(result, apps, i) {
+//         result[i] = _.map(apps, function(app) {
+//           return _.omit(app, 'college')
+//         });
+//       })
+//       .value());
 
-    res(colleges);
-  }
-});
+//     res(colleges);
+//   }
+// });
 
-server.route({
-  method: 'GET',
-  path: '/colleges/{name}',
-  handler: function(req, res){
+// server.route({
+//   method: 'GET',
+//   path: '/colleges/{name}',
+//   handler: function(req, res){
 
-    let name = encodeURIComponent(req.params.name);
-    let applications = _.clone(db.get('applications')
-      .filter({'college': name})
-      .transform(function(result, value, key) {
-        result[key] = {name: value.name, score: value.score}
-      }, [])
-      .value());
+//     let name = encodeURIComponent(req.params.name);
+//     let applications = _.clone(db.get('applications')
+//       .filter({'college': name})
+//       .transform(function(result, value, key) {
+//         result[key] = {name: value.name, score: value.score}
+//       }, [])
+//       .value());
 
-    let data = {
-      college: name,
-      applications: applications
-    };
+//     let data = {
+//       college: name,
+//       applications: applications
+//     };
 
-    res(data);
-  }
-});
+//     res(data);
+//   }
+// });
 
 server.route({
   method: 'POST',
@@ -141,21 +154,24 @@ server.route({
 });
 
 db.defaults({
-  applications: [
+  entries: [
     {
-        "college": "CompSci",
-        "name": "Alice",
-        "score": 100
+        "hex": "FF0000",
+        "name": "Red",
+        "timestamp": +new Date(),
+        "user": "Anon"
     },
     {
-        "college": "CompSci",
-        "name": "Bob",
-        "score": 80
+        "hex": "00FF00",
+        "name": "Green",
+        "timestamp": +new Date(),
+        "user": "Anon"
     },
     {
-        "college": "Business",
-        "name": "Bob",
-        "score": 90
+        "hex": "0000FF",
+        "name": "Blue",
+        "timestamp": +new Date(),
+        "user": "Anon"
     }
   ]
 }).write();
