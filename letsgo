@@ -8,7 +8,7 @@ if command -v node >/dev/null 2>&1 ; then
       npm install
     fi
 
-    BKUP=$1 PORT=$2 node index.js
+    BKUP=$1 PORT=$2 node server.js
 else
     echo "nodejs not found"
 fi

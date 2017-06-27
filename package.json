@@ -1,8 +1,8 @@
 {
-  "name": "parsechapi",
+  "name": "kuhleurHapi",
   "version": "1.0.0",
-  "description": "ParSec Hapi Server Test",
-  "main": "index.js",
+  "description": "Kuhleur Hapi Server",
+  "main": "server.js",
   "scripts": {
     "test": "test.sh"
   },
