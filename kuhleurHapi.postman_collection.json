@@ -2,30 +2,35 @@
 	"variables": [],
 	"info": {
 		"name": "kuhleurHapi",
-		"_postman_id": "2b0440e5-e798-67a1-50c2-0c397c5ef6c2",
+		"_postman_id": "5759c107-dcc5-d946-7d77-f7ffd9ea445f",
 		"description": "Test Endpoints for the kuhleurHapi server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "localhost:3000/applications",
+			"name": "localhost:3000/entries",
 			"request": {
-				"url": "localhost:3000/applications",
+				"url": "localhost:3000/entries",
 				"method": "POST",
 				"header": [
 					{
-						"key": "college",
-						"value": "CompSci",
+						"key": "hex",
+						"value": "F90000",
 						"description": ""
 					},
 					{
 						"key": "name",
-						"value": "Justin",
+						"value": "Blood Red",
 						"description": ""
 					},
 					{
-						"key": "score",
-						"value": "100",
+						"key": "timestamp",
+						"value": "1498537037709",
+						"description": ""
+					},
+					{
+						"key": "user",
+						"value": "Anon",
 						"description": ""
 					}
 				],
@@ -35,9 +40,9 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/applicants",
+			"name": "localhost:3000/hexes",
 			"request": {
-				"url": "localhost:3000/applicants",
+				"url": "localhost:3000/hexes",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -46,9 +51,9 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/applicants/{name}",
+			"name": "localhost:3000/hexes/{name}",
 			"request": {
-				"url": "localhost:3000/applicants/Alice",
+				"url": "localhost:3000/hexes/FF0000",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -57,9 +62,9 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/colleges",
+			"name": "localhost:3000/names",
 			"request": {
-				"url": "localhost:3000/colleges",
+				"url": "localhost:3000/names",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -68,9 +73,9 @@
 			"response": []
 		},
 		{
-			"name": "localhost:3000/colleges/{name}",
+			"name": "localhost:3000/names/{name}",
 			"request": {
-				"url": "localhost:3000/colleges/Business",
+				"url": "localhost:3000/names/Red",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -84,7 +89,10 @@
 				"url": "localhost:3000/backup",
 				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []

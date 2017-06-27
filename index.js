@@ -3,6 +3,7 @@
 const Hapi = require('hapi');
 const Good = require('good');
 const Boom = require('boom');
+const uuid = require('uuid');
 const _ = require('lodash');
 const low = require('lowdb');
 
@@ -35,8 +36,7 @@ server.route({
     let h = req.headers;
     let x = h.hex;
     let n = h.name;
-    let t = h.timestamp,
-    let s = h.score;
+    let t = h.timestamp;
 
     let dupe = db.get('entries')
       .find({ hex: x, name: n })
@@ -88,16 +88,56 @@ server.route({
   handler: function(req, res){
 
     let hex = encodeURIComponent(req.params.hex);
-    let applications = _.clone(db.get('entries')
-      .filter({'hex': name})
+    let entries = _.clone(db.get('entries')
+      .filter({'hex': hex})
       .transform(function(result, value, key) {
-        result[key] = {college: value.college, score: value.score}
+        result[key] = {name: value.name, timestamp: value.timestamp, user: value.user}
+      }, [])
+      .value());
+
+    let data = {
+      hex: hex,
+      entries: entries
+    };
+
+    res(data);
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/names',
+  handler: function(req, res){
+
+    let names = _.clone(db.get('entries')
+      .groupBy('name')
+      .transform(function(result, names, x) {
+        result[ x ] = _.map(names, function(n) {
+          return _.omit(n, 'name')
+        });
+      })
+      .value());
+
+    res(names);
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/names/{name}',
+  handler: function(req, res){
+
+    let name = encodeURIComponent(req.params.name);
+    let entries = _.clone(db.get('entries')
+      .filter({'name': name})
+      .transform(function(result, value, key) {
+        result[key] = {hex: value.hex, timestamp: value.timestamp, user: value.user}
       }, [])
       .value());
 
     let data = {
       name: name,
-      applications: applications
+      entries: entries
     };
 
     res(data);
