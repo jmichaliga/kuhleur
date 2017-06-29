@@ -149,11 +149,13 @@ server.register({
 
       let hexes = _.clone(db.get('entries')
         .groupBy('hex')
+
         .transform(function(result, hexes, x) {
           result[ x ] = _.map(hexes, function(h) {
             return _.omit(h, 'hex')
           });
         })
+        .toPairs()
         .value());
 
       res(hexes);
@@ -173,10 +175,10 @@ server.register({
         }, [])
         .value());
 
-      let data = JSON.parse({
+      let data = {
         hex: hex,
         entries: entries
-      });
+      };
 
       res(data);
     }
