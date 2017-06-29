@@ -149,13 +149,14 @@ server.register({
 
       let hexes = _.clone(db.get('entries')
         .groupBy('hex')
-
-        .transform(function(result, hexes, x) {
-          result[ x ] = _.map(hexes, function(h) {
-            return _.omit(h, 'hex')
-          });
+        .map(function(items, hex){
+          return {
+            hex: hex,
+            entries: _.map(items, function(h) {
+              return _.omit(h, 'hex')
+            })
+          }
         })
-        .toPairs()
         .value());
 
       res(hexes);
@@ -191,10 +192,13 @@ server.register({
 
       let names = _.clone(db.get('entries')
         .groupBy('name')
-        .transform(function(result, names, x) {
-          result[ x ] = _.map(names, function(n) {
-            return _.omit(n, 'name')
-          });
+        .map(function(items, name){
+          return {
+            name: name,
+            entries: _.map(items, function(n) {
+              return _.omit(n, 'name')
+            })
+          }
         })
         .value());
 
