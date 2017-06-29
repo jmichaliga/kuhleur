@@ -1,3 +1,7 @@
 import React from 'react'
 
-export default () => <div>b</div>
+export default () =>
+
+<div>
+    <h1>Names</h1>
+</div>
